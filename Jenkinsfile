@@ -15,7 +15,7 @@ pipeline {
 
                 withEnv(["JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64", "PATH=/usr/lib/jvm/java-17-openjdk-amd64/bin:$PATH"]) {
                     sh 'java -version'
-                    sh 'mvn clean install'
+                    sh 'mvn clean install --settings ./settings.xml'
                 }
             }
 
