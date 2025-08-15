@@ -27,11 +27,28 @@ environment{
                 }
             }
 
-            post {
+           
+        }
+        stage('test') {
+            parallel{
+                stage('build a')
+                {
+                    echo " i am from build a"
+                }
+                stage('build b') 
+                {
+                    "echo "i am from build b"
+                    
+                }
+                
+            }
+        }
+
+         post {
                 success {
                     archiveArtifacts artifacts: '**/target/*.war'
                 }
             }
-        }
+        
     }
 }
