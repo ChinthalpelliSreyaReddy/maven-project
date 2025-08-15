@@ -6,6 +6,8 @@ stages{
     stage('BUILD'){
         steps{
             echo "this is my first pipeline demo"
+            checkout scm  // 👈 This line actually clones your repo
+            sh 'ls -la'
         }
     }
 
