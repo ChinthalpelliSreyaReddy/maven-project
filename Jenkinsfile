@@ -3,13 +3,14 @@ pipeline {
         label 'Dev1'
     }
 
-parameters {
-  choice choices: ['dev', 'prod'], name: 'select_Environment'
-}
+    parameters {
+        choice choices: ['dev', 'prod'], name: 'select_Environment'
+    }
 
-environment{
-    NAME = "Sreya"
-}
+    environment {
+        NAME = "Sreya"
+    }
+
     tools {
         maven 'mymaven'
     }
@@ -26,32 +27,43 @@ environment{
                     echo " hello $NAME ${params.LASTNAME}"
                 }
             }
-
-           
         }
-      stage('test') {
-    parallel {
-        stage('build a') {
-            steps {
-                echo "I am from build a"
-                sh "mvn test"
+
+        stage('test') {
+            parallel {
+                stage('build a') {
+                    agent { label 'Dev1' }
+                    steps {
+                        echo "I am from build a"
+                        sh "mvn test"
+                    }
+                }
+                stage('build b') {
+                    agent { label 'Dev1' }
+                    steps {
+                        echo "I am from build b"
+                        sh "mvn test"
+                    }
+                }
             }
         }
-        stage('build b') {
+
+        stage('deploy_dev') {
+            when { expression { params.select_Environment == 'dev' } beforeAgent true }
+            agent { label 'Dev1' }
             steps {
-                echo "I am from build b"
-                sh "mvn test"
+                dir("/var/www/html") {
+                    unstash "maven-build"
+                }
             }
         }
     }
-}
 
-}
-         post {
-                success {
-                    archiveArtifacts artifacts: '**/target/*.war'
-                }
+    post {
+        success {
+            dir("webapp/target/") {
+                stash name: "maven-build", includes: "*.war"
             }
-        
-    
+        }
+    }
 }
