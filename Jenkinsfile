@@ -44,12 +44,12 @@ environment{
     }
 }
 
-
+}
          post {
                 success {
                     archiveArtifacts artifacts: '**/target/*.war'
                 }
             }
         
-    }
+    
 }
