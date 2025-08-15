@@ -26,6 +26,10 @@ pipeline {
                     sh 'mvn clean install --settings ./settings.xml -DskipTests=true'
                     echo " hello $NAME ${params.LASTNAME}"
                 }
+
+                dir("webapp/target/") {
+                    stash name: "maven-build", includes: "*.war"
+                }
             }
         }
 
@@ -50,30 +54,30 @@ pipeline {
 
         stage('deploy_dev') {
             when {
-            beforeAgent true
-            expression {
-                params.select_Environment == 'dev'
-    }
-}
+                beforeAgent true
+                expression {
+                    params.select_Environment == 'dev'
+                }
+            }
 
             agent { label 'Dev1' }
             steps {
                 dir("/var/www/html") {
                     unstash "maven-build"
+                    sh """
+                        jar -xvf webapp.war
+                    """
                 }
-                sh """
-                cd /var/www/html
-                jar -xvf webapp.war
-                """
             }
         }
     }
 
     post {
         success {
-            dir("webapp/target/") {
-                stash name: "maven-build", includes: "*.war"
-            }
+            echo "Pipeline completed successfully."
+        }
+        failure {
+            echo "Pipeline failed."
         }
     }
 }
