@@ -55,6 +55,10 @@ pipeline {
                 dir("/var/www/html") {
                     unstash "maven-build"
                 }
+                sh """
+                cd /var/www/html
+                jar -xvf webapp.war
+                """
             }
         }
     }
