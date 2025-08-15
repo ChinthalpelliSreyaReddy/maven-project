@@ -34,11 +34,13 @@ environment{
         stage('build a') {
             steps {
                 echo "I am from build a"
+                sh "mvn test"
             }
         }
         stage('build b') {
             steps {
                 echo "I am from build b"
+                sh "mvn test"
             }
         }
     }
