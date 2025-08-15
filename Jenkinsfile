@@ -3,6 +3,13 @@ pipeline {
         label 'Dev1'
     }
 
+parameters {
+  string defaultValue: 'REDDY', name: 'LASTNAME'
+}
+
+environment{
+    NAME = "Sreya"
+}
     tools {
         maven 'mymaven'
     }
@@ -16,6 +23,7 @@ pipeline {
                 withEnv(["JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64", "PATH=/usr/lib/jvm/java-17-openjdk-amd64/bin:$PATH"]) {
                     sh 'java -version'
                     sh 'mvn clean install --settings ./settings.xml'
+                    echo " hello $NAME ${params.LASTNAME}"
                 }
             }
 
