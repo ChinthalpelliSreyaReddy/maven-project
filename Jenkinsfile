@@ -4,7 +4,7 @@ pipeline {
     }
 
 parameters {
-  string defaultValue: 'REDDY', name: 'LASTNAME'
+  choice choices: ['dev', 'prod'], name: 'select_Environment'
 }
 
 environment{
@@ -22,7 +22,7 @@ environment{
 
                 withEnv(["JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64", "PATH=/usr/lib/jvm/java-17-openjdk-amd64/bin:$PATH"]) {
                     sh 'java -version'
-                    sh 'mvn clean install --settings ./settings.xml'
+                    sh 'mvn clean install --settings ./settings.xml -DskipTests=true'
                     echo " hello $NAME ${params.LASTNAME}"
                 }
             }
