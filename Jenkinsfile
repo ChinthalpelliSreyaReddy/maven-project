@@ -11,8 +11,8 @@ stages{
     stage('BUILD'){
         steps{
             
-           // checkout scm  // 👈 This line actually clones your repo
-            //sh 'ls -la'
+           checkout scm  // 👈 This line actually clones your repo
+            sh 'ls -la'
             sh 'mvn clean install'
         }
         post {
