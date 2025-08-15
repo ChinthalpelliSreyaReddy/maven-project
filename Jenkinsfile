@@ -1,28 +1,30 @@
 pipeline{
 
-agent any
+agent {
+  label 'Dev1'
+}
+
 
 stages{
     stage('BUILD'){
         steps{
-            echo "this is my first pipeline demo"
-            checkout scm  // 👈 This line actually clones your repo
-            sh 'ls -la'
+            
+           // checkout scm  // 👈 This line actually clones your repo
+            //sh 'ls -la'
+            sh 'mvn clean install'
         }
-    }
-
-    stage('DEV'){
-        steps{
-            echo "this is dev repos"
-        }
-    }
-    stage('prod'){
-        steps{
-            echo "this is prod rep"
-        }
+        post {
+        success {
+           archiveArtifacts artifacts: '**/target/*.war'
+               }
+           }
 
     }
+
+    
 }
+
+
 
 
 }
