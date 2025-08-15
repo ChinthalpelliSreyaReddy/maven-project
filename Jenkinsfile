@@ -29,20 +29,21 @@ environment{
 
            
         }
-        stage('test') {
-            parallel{
-                stage('build a')
-                {
-                    echo " i am from build a"
-                }
-                stage('build b') 
-                {
-                    echo "i am from build b"
-                    
-                }
-                
+      stage('test') {
+    parallel {
+        stage('build a') {
+            steps {
+                echo "I am from build a"
             }
         }
+        stage('build b') {
+            steps {
+                echo "I am from build b"
+            }
+        }
+    }
+}
+
 
          post {
                 success {
