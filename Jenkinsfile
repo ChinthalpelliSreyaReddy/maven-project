@@ -49,7 +49,13 @@ pipeline {
         }
 
         stage('deploy_dev') {
-            when { expression { params.select_Environment == 'dev' } beforeAgent true }
+            when {
+            beforeAgent true
+            expression {
+                params.select_Environment == 'dev'
+    }
+}
+
             agent { label 'Dev1' }
             steps {
                 dir("/var/www/html") {
