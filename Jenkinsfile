@@ -37,7 +37,7 @@ environment{
                 }
                 stage('build b') 
                 {
-                    "echo "i am from build b"
+                    echo "i am from build b"
                     
                 }
                 
