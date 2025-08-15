@@ -13,7 +13,7 @@ pipeline {
                 checkout scm
                 sh 'ls -la'
 
-                withEnv(["JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64", "PATH+JAVA=${JAVA_HOME}/bin"]) {
+                withEnv(["JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64", "PATH=/usr/lib/jvm/java-17-openjdk-amd64/bin:$PATH"]) {
                     sh 'java -version'
                     sh 'mvn clean install'
                 }
